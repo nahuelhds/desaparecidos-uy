@@ -1,3 +1,6 @@
-const { main } = require("./src/app");
+const argv = require("yargs").argv;
+const app = require("./src/app");
 
-main();
+const fn = argv.fn || "main";
+
+app[fn]();

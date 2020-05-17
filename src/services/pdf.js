@@ -2,10 +2,10 @@ const path = require("path");
 const pdf = require("pdf-poppler");
 const { logger } = require("./logger");
 
-async function pdfToPng(pdfPath) {
+async function pdfToImage(pdfPath) {
   try {
     logger.info(`Converting ${pdfPath}`);
-    const response = await pdf.convert(pdfPath, {
+    await pdf.convert(pdfPath, {
       format: "jpeg",
       out_dir: path.dirname(pdfPath),
       out_prefix: path.basename(pdfPath, path.extname(pdfPath)),
@@ -20,5 +20,5 @@ async function pdfToPng(pdfPath) {
 }
 
 module.exports = {
-  pdfToPng,
+  pdfToImage,
 };

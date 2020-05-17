@@ -1,14 +1,16 @@
 const fs = require("fs");
+const path = require("path");
 const downloadPdf = require("download-pdf");
 
 const { logger } = require("./services/logger");
 const { getBrowser, newPage } = require("./services/browser");
-const { pdfToPng } = require("./services/pdf");
+const { pdfToImage } = require("./services/pdf");
+const { colorize } = require("./services/colorizer");
 
 const DIST_PATH = "./dist";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
-async function downloadPdfAndConvertToImage() {
+async function downloadPdfs(convertToImage = true) {
   try {
     const browser = await getBrowser();
     const page = await newPage(browser);
@@ -30,13 +32,13 @@ async function downloadPdfAndConvertToImage() {
           logger.error(`Error downloading ${pdfUrl}`, err);
         } else {
           logger.info(`Downloaded ${pdfUrl}`);
-          pdfToPng(pdfPath);
+          convertToImage && pdfToPng(pdfPath);
         }
       }
 
       if (fs.existsSync(pdfPath)) {
         logger.info(`PDF already exists for: ${pdfPath}`);
-        pdfToPng(pdfPath);
+        convertToImage && pdfToPng(pdfPath);
       } else {
         logger.info(`Downloading PDF ${pdfUrl}`);
         downloadPdf(
@@ -54,4 +56,36 @@ async function downloadPdfAndConvertToImage() {
   }
 }
 
-module.exports = { main: downloadPdfAndConvertToImage };
+function pdfsToImage() {
+  return fs.readdir(DIST_PATH, (err, files) => {
+    if (err) {
+      return logger.info(`Unable to scan directory. Error: ${err}`);
+    }
+
+    files.forEach((file) => {
+      const extension = path.extname(file);
+      if (extension !== ".pdf") {
+        return;
+      }
+
+      logger.info(`Checking ${file}`);
+      const jpgPath = `${DIST_PATH}/${file.replace(extension, "-1.jpg")}`;
+      if (fs.existsSync(jpgPath)) {
+        logger.info(`Image already exists at ${jpgPath}`);
+        return;
+      }
+
+      logger.info(`Generating image for ${file}`);
+      pdfToImage(`${DIST_PATH}/${file}`);
+    });
+  });
+}
+
+function colorizeAll() {}
+
+module.exports = {
+  main: downloadPdfs,
+  downloadPdfs,
+  pdfsToImage,
+  colorizeAll,
+};
