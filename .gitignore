@@ -1,4 +1,6 @@
 .idea
-assets
+dist/pdf/*
+!.gitkeep
 node_modules
 *.iml
+*.log
