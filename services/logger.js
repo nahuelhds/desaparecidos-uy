@@ -1,8 +1,8 @@
-import winston from "winston";
+const winston = require("winston");
 
 const logger = winston.createLogger({
   level: "info",
-  format: winston.format.json(),
+  // format: winston.format.json(),
   defaultMeta: { service: "user-service" },
   transports: [
     //
@@ -17,7 +17,6 @@ const logger = winston.createLogger({
 //
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
 if (process.env.NODE_ENV !== "production") {
   logger.add(
     new winston.transports.Console({
@@ -26,8 +25,6 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-export default logger;
-
 /**
  * Procesa el console.log|info|error|warn que viene de dentro de las paginas accedidas
  * por Puppeteer
@@ -35,7 +32,7 @@ export default logger;
  * @see https://github.com/GoogleChrome/puppeteer/issues/3397#issuecomment-429325514
  * @param {Object} msg
  */
-export const pageConsoleLogger = async (msg) => {
+const pageConsoleLogger = async (msg) => {
   if (process.env.NODE_ENV !== "production") {
     const args = await msg.args();
     for (const arg of args) {
@@ -58,4 +55,9 @@ export const pageConsoleLogger = async (msg) => {
       }
     }
   }
+};
+
+module.exports = {
+  logger,
+  pageConsoleLogger,
 };
