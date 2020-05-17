@@ -4,8 +4,12 @@ Scrapper que descarga los PDFs de los detenidos desaparecidos disponibilizados e
 página oficial de [Madres y Familiares de Uruguayos Detenidos Desaparecidos
 ](https://desaparecidos.org.uy/desaparecidos/) y los transforma a imágenes.
 
+## Dataset disponibilizados
+
 Los archivos descargados con este scrapper 
 [se encuentran disponibilizados en esta carpeta de Drive.](https://drive.google.com/open?id=16sCjHrZ6648Z46Jmierp14BlaRgCps74)
+
+## Usos
 
 Esta descarga automatizada se realiza con fines de utilizar sobre las imágenes 
 la librería [DeOldify](https://deoldify.ai/) y quizás también generar alguna cuenta 
