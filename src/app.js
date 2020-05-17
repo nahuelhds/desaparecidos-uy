@@ -24,7 +24,7 @@ async function downloadPdfs(convertToImage = true) {
       const pdfUrl = await page.$eval("#content .attachment > a", (anchor) =>
         anchor.getAttribute("href")
       );
-      const pdfFilename = `${pdfUrl.replace(/.*\/(.*?\.pdf)/, "$1")}`;
+      const pdfFilename = path.basename(pdfUrl);
       const pdfPath = `${DIST_PATH}/${pdfFilename}`;
 
       function pdfCallback(err) {
@@ -32,13 +32,13 @@ async function downloadPdfs(convertToImage = true) {
           logger.error(`Error downloading ${pdfUrl}`, err);
         } else {
           logger.info(`Downloaded ${pdfUrl}`);
-          convertToImage && pdfToPng(pdfPath);
+          convertToImage && pdfToImage(pdfPath);
         }
       }
 
       if (fs.existsSync(pdfPath)) {
         logger.info(`PDF already exists for: ${pdfPath}`);
-        convertToImage && pdfToPng(pdfPath);
+        convertToImage && pdfToImage(pdfPath);
       } else {
         logger.info(`Downloading PDF ${pdfUrl}`);
         downloadPdf(
@@ -76,7 +76,7 @@ function pdfsToImage() {
       }
 
       logger.info(`Generating image for ${file}`);
-      pdfToImage(`${DIST_PATH}/${file}`);
+      return pdfToImage(`${DIST_PATH}/${file}`);
     });
   });
 }
