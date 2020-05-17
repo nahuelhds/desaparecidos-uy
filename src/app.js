@@ -8,7 +8,7 @@ const { pdfToPng } = require("./services/pdf");
 const DIST_PATH = "./dist";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
-async function main() {
+async function downloadPdfAndConvertToImage() {
   try {
     const browser = await getBrowser();
     const page = await newPage(browser);
@@ -54,4 +54,4 @@ async function main() {
   }
 }
 
-module.exports = { main };
+module.exports = { main: downloadPdfAndConvertToImage };
