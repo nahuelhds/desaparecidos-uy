@@ -81,7 +81,21 @@ function pdfsToImage() {
   });
 }
 
-function colorizeAll() {}
+function colorizeAll() {
+  return fs.readdir(DIST_PATH, async (err, files) => {
+    if (err) {
+      return logger.info(`Unable to scan directory. Error: ${err}`);
+    }
+
+    for (const file of files) {
+      const extension = path.extname(file);
+      if (extension !== ".jpg") {
+        continue;
+      }
+      await colorize(`${DIST_PATH}/${file}`);
+    }
+  });
+}
 
 module.exports = {
   main: downloadPdfs,
