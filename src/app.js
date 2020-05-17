@@ -1,8 +1,11 @@
 const fs = require("fs");
+const downloadPdf = require("download-pdf");
+
 const { logger } = require("./services/logger");
 const { getBrowser, newPage } = require("./services/browser");
+const { pdfToPng } = require("./services/pdf");
 
-const DIST_PATH = "./dist/pdf";
+const DIST_PATH = "./dist";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
 async function main() {
@@ -19,13 +22,28 @@ async function main() {
       const pdfUrl = await page.$eval("#content .attachment > a", (anchor) =>
         anchor.getAttribute("href")
       );
-      const pdfPath = `${DIST_PATH}/${pdfUrl.replace(/.*\/(.*?\.pdf)/, "$1")}`;
+      const pdfFilename = `${pdfUrl.replace(/.*\/(.*?\.pdf)/, "$1")}`;
+      const pdfPath = `${DIST_PATH}/${pdfFilename}`;
+
+      function pdfCallback(err) {
+        if (err) {
+          logger.error(`Error downloading ${pdfUrl}`, err);
+        } else {
+          logger.info(`Downloaded ${pdfUrl}`);
+          pdfToPng(pdfPath);
+        }
+      }
+
       if (fs.existsSync(pdfPath)) {
         logger.info(`PDF already exists for: ${pdfPath}`);
+        pdfToPng(pdfPath);
       } else {
-        logger.info(`Downloading PDF for: ${href}`);
-        const response = await page.goto(pdfUrl);
-        fs.writeFileSync(pdfPath, await response.buffer());
+        logger.info(`Downloading PDF ${pdfUrl}`);
+        downloadPdf(
+          pdfUrl,
+          { directory: DIST_PATH, filename: pdfFilename },
+          pdfCallback
+        );
       }
     }
     browser.close();

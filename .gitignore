@@ -1,5 +1,5 @@
 .idea
-dist/pdf/*
+dist/*
 !.gitkeep
 node_modules
 *.iml

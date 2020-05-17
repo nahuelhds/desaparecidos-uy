@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 const { env } = require("./config");
-const { logger, pageConsoleLogger } = require("./logger");
+const { logger } = require("./logger");
 
 async function getBrowser() {
   return await puppeteer.launch({
@@ -12,16 +12,15 @@ async function getBrowser() {
 
 async function newPage(browser) {
   try {
-    logger.info(`Abriendo nueva pestaña`);
+    logger.info(`Opening new page`);
     const page = await browser.newPage();
     await page.setViewport({
       width: 1200,
       height: 900,
     });
-    page.on("console", pageConsoleLogger);
     return page;
   } catch (error) {
-    throw `Ocurrió un error al crear la página. Error: ${error}`;
+    throw `An error occurred while creating the page. Error: ${error}`;
   }
 }
 
