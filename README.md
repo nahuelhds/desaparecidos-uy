@@ -11,6 +11,7 @@
 ## Sobre el proyecto
 
 Este proyecto consta de tres partes:
+
 1. el scrapper
 1. la notebook para la colorización
 1. las fichas de los detenidxs desaparecidxs
@@ -31,10 +32,12 @@ a partir de las cuales se crearon las distintas fotos de colores.
 
 ### Fichas en formato Markdown
 
+Las distintas fichas generadas pueden verse en el directorio [assets/files.](./assets/files)
+
 Para la generación de las fichas se utilizó el documento "Investigación Histórica sobre Detenidos Desaparecidos"
- realizado por Presidencia, en específico [el tomo 2](http://archivo.presidencia.gub.uy/_web/noticias/2007/06/tomo2.pdf)
- y [el tomo 3.](http://archivo.presidencia.gub.uy/_web/noticias/2007/06/tomo3.pdf)
+realizado por Presidencia, en específico [el tomo 2](http://archivo.presidencia.gub.uy/_web/noticias/2007/06/tomo2.pdf)
+y [el tomo 3.](http://archivo.presidencia.gub.uy/_web/noticias/2007/06/tomo3.pdf)
 
 Dichos tomos fueron pasados a Markdown con [esta herramienta online](https://pdf2md.morethan.io/)
-y el contenido generado se descargó al archivo unificado `assets/files.md`, el cual fue separado en
+y el contenido generado se descargó al archivo unificado [assets/files.md](./assets/files.md), el cual fue separado en
 las distintas fichas individuales con un poco de reemplazo con expresiones regulares.
