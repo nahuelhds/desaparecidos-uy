@@ -1,5 +1,5 @@
 .idea
-dist/*
+dist/images/*
 !.gitkeep
 node_modules
 test

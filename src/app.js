@@ -7,7 +7,7 @@ const { getBrowser, newPage } = require("./services/browser");
 const { pdfToImage } = require("./services/pdf");
 const { colorize } = require("./services/colorizer");
 
-const DIST_PATH = "./dist";
+const DIST_PATH = "./dist/images";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
 async function downloadPdfs(convertToImage = true) {
