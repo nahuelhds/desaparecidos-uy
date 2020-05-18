@@ -1,4 +1,4 @@
-# Detenidos Desaparecidos 🇺🇾 a color
+# Detenidxs Desaparecidxs a color 🇺🇾
 
 ![https://i.imgur.com/ckS4V07.jpg](https://i.imgur.com/ckS4V07.jpg)
 ![https://i.imgur.com/fEBVXug.jpg](https://i.imgur.com/fEBVXug.jpg)
