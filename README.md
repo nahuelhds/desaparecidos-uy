@@ -1,28 +1,32 @@
-# Detenidos Desaparecidos de Uruguay
+# Detenidos Desaparecidos 🇺🇾 a color
 
-Scrapper que descarga los PDFs de los detenidos desaparecidos disponibilizados en la
-página oficial de [Madres y Familiares de Uruguayos Detenidos Desaparecidos
-](https://desaparecidos.org.uy/desaparecidos/) y los transforma a imagen.
+![https://imgur.com/sQF56eV](https://imgur.com/sQF56eV)
+![https://imgur.com/DCKRVKl](https://imgur.com/DCKRVKl)
+![https://imgur.com/ckS4V07](https://imgur.com/ckS4V07)
+![https://imgur.com/fEBVXug](https://imgur.com/fEBVXug)
+![https://imgur.com/wpKqqaX](https://imgur.com/wpKqqaX)
+![https://imgur.com/oq7wGLp](https://imgur.com/oq7wGLp)
+![https://imgur.com/CXnQfV2](https://imgur.com/CXnQfV2)
+![https://imgur.com/OGBZQj0](https://imgur.com/OGBZQj0)
 
-También cuenta con la opción de utilizar **colorizer** para darle color a dichas fotos en blanco y negro.
+Este proyecto consta de dos partes: el scrapper y la notebook para la colorización.
 
-De todos modos, para colorizar con mayor amplitud, se utilizó una notebook que toma de base lo
-[ofrecido por DeOldify](<(https://colab.research.google.com/github/jantic/DeOldify/blob/master/ImageColorizerColab.ipynb)>)
+## Scrapper
 
-## Carpeta de imágenes
+- Un scrapper que descarga los PDFs de los detenidos desaparecidos disponibilizados en la
+  página oficial de [Madres y Familiares de Uruguayos Detenidos Desaparecidos
+  ](https://desaparecidos.org.uy/desaparecidos/)
+- Transformación de los PDFs descargados a imagen.
+- Colorización básica por API de las imágenes.
 
-Los archivos descargados y generados en este proyecto
-[se encuentran en esta carpeta de Drive.](https://drive.google.com/open?id=16sCjHrZ6648Z46Jmierp14BlaRgCps74)
+## Colorizer
 
-## Sobre la notebook utilizada
+Para colorizar con mayor cantidad de factores de renderización, se utilizó la notebook original
+[ofrecida por DeOldify](https://colab.research.google.com/github/jantic/DeOldify/blob/master/ImageColorizerColab.ipynb),
+se la adaptó cosa de poder conectar directamente a la [carpeta de Drive donde se subieron todas las imágenes](https://colab.research.google.com/drive/1-BV3LHjy9nojFy1kJDPQ6pFRfc96cfVG?usp=sharing) generadas,
+a partir de las cuales se crearon las distintas fotos de colores.
 
-Se adaptó la [notebook original que brinda DeOldify](https://colab.research.google.com/github/jantic/DeOldify/blob/master/ImageColorizerColab.ipynb)
-para poder conectar directamente a la carpeta de Drive anteriormente mencionada y aplicar
-directamente desde allí las transformaciones deseadas.
+## Resultados
 
-Dicha implementación puede verse [a través de este enlace.](https://colab.research.google.com/drive/1-BV3LHjy9nojFy1kJDPQ6pFRfc96cfVG?usp=sharing)
-
-## Futuras aplicaciones
-
-Posiblemente algún bot de Twitter y/o Instagram que publique periódicamente este listado con información
-adicional, como [las fichas provistas en la página de la Secretaría de Derechos Humanos para el Pasado Reciente](https://www.gub.uy/secretaria-derechos-humanos-pasado-reciente/comunicacion/publicaciones?field_tipo_de_publicacion_target_id=226&year=all&month=all&field_tematica_target_id=206&field_publico_target_id=29&page=0)
+1. Por un lado puede verse el [album de las fotos a color de las 197 personas detenidas desaparecidas.](https://photos.app.goo.gl/fcFYtXymp1AY769B9)
+1. Así mismo puede verse una comparativa entre la foto original y la de color en [esta carpeta de Drive.](https://drive.google.com/open?id=16sCjHrZ6648Z46Jmierp14BlaRgCps74)
