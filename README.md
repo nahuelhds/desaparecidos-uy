@@ -1,17 +1,13 @@
 # Detenidos Desaparecidos 🇺🇾 a color
 
-![https://imgur.com/sQF56eV](https://imgur.com/sQF56eV)
-![https://imgur.com/DCKRVKl](https://imgur.com/DCKRVKl)
-![https://imgur.com/ckS4V07](https://imgur.com/ckS4V07)
-![https://imgur.com/fEBVXug](https://imgur.com/fEBVXug)
-![https://imgur.com/wpKqqaX](https://imgur.com/wpKqqaX)
-![https://imgur.com/oq7wGLp](https://imgur.com/oq7wGLp)
-![https://imgur.com/CXnQfV2](https://imgur.com/CXnQfV2)
-![https://imgur.com/OGBZQj0](https://imgur.com/OGBZQj0)
+![https://i.imgur.com/ckS4V07.jpg](https://i.imgur.com/ckS4V07.jpg)
+![https://i.imgur.com/fEBVXug.jpg](https://i.imgur.com/fEBVXug.jpg)
+
+## Sobre el proyecto
 
 Este proyecto consta de dos partes: el scrapper y la notebook para la colorización.
 
-## Scrapper
+### Scrapper
 
 - Un scrapper que descarga los PDFs de los detenidos desaparecidos disponibilizados en la
   página oficial de [Madres y Familiares de Uruguayos Detenidos Desaparecidos
@@ -19,7 +15,7 @@ Este proyecto consta de dos partes: el scrapper y la notebook para la colorizaci
 - Transformación de los PDFs descargados a imagen.
 - Colorización básica por API de las imágenes.
 
-## Colorizer
+### Colorizer
 
 Para colorizar con mayor cantidad de factores de renderización, se utilizó la notebook original
 [ofrecida por DeOldify](https://colab.research.google.com/github/jantic/DeOldify/blob/master/ImageColorizerColab.ipynb),
