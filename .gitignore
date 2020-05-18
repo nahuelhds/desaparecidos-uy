@@ -1,6 +1,5 @@
 .idea
 assets/images/*
-assets/files.md
 !.gitkeep
 node_modules
 test
