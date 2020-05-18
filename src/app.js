@@ -7,7 +7,7 @@ const { getBrowser, newPage } = require("./services/browser");
 const { pdfToImage } = require("./services/pdf");
 const { colorize } = require("./services/colorizer");
 
-const DIST_PATH = "./dist/images";
+const DEST_PATH = "./assets/images";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
 async function downloadPdfs(convertToImage = true) {
@@ -25,7 +25,7 @@ async function downloadPdfs(convertToImage = true) {
         anchor.getAttribute("href")
       );
       const pdfFilename = path.basename(pdfUrl);
-      const pdfPath = `${DIST_PATH}/${pdfFilename}`;
+      const pdfPath = `${DEST_PATH}/${pdfFilename}`;
 
       function pdfCallback(err) {
         if (err) {
@@ -43,7 +43,7 @@ async function downloadPdfs(convertToImage = true) {
         logger.info(`Downloading PDF ${pdfUrl}`);
         downloadPdf(
           pdfUrl,
-          { directory: DIST_PATH, filename: pdfFilename },
+          { directory: DEST_PATH, filename: pdfFilename },
           pdfCallback
         );
       }
@@ -57,7 +57,7 @@ async function downloadPdfs(convertToImage = true) {
 }
 
 function pdfsToImage() {
-  return fs.readdir(DIST_PATH, (err, files) => {
+  return fs.readdir(DEST_PATH, (err, files) => {
     if (err) {
       return logger.info(`Unable to scan directory. Error: ${err}`);
     }
@@ -69,20 +69,20 @@ function pdfsToImage() {
       }
 
       logger.info(`Checking ${file}`);
-      const jpgPath = `${DIST_PATH}/${file.replace(extension, "-1.jpg")}`;
+      const jpgPath = `${DEST_PATH}/${file.replace(extension, "-1.jpg")}`;
       if (fs.existsSync(jpgPath)) {
         logger.info(`Image already exists at ${jpgPath}`);
         return;
       }
 
       logger.info(`Generating image for ${file}`);
-      return pdfToImage(`${DIST_PATH}/${file}`);
+      return pdfToImage(`${DEST_PATH}/${file}`);
     });
   });
 }
 
 function colorizeAll() {
-  return fs.readdir(DIST_PATH, async (err, files) => {
+  return fs.readdir(DEST_PATH, async (err, files) => {
     if (err) {
       return logger.info(`Unable to scan directory. Error: ${err}`);
     }
@@ -92,7 +92,7 @@ function colorizeAll() {
       if (extension !== ".jpg") {
         continue;
       }
-      await colorize(`${DIST_PATH}/${file}`);
+      await colorize(`${DEST_PATH}/${file}`);
     }
   });
 }
