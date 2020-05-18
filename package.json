@@ -8,6 +8,7 @@
     "start:downloadPdfs": "node index.js --fn=downloadPdfs",
     "start:pdfsToImage": "node index.js --fn=pdfsToImage",
     "start:colorizeAll": "node index.js --fn=colorizeAll",
+    "start:splitAllInFiles": "node index.js --fn=splitAllInFiles",
     "test": "jest"
   },
   "keywords": [],

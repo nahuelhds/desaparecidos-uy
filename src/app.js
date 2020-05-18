@@ -7,7 +7,8 @@ const { getBrowser, newPage } = require("./services/browser");
 const { pdfToImage } = require("./services/pdf");
 const { colorize } = require("./services/colorizer");
 
-const DEST_PATH = "./assets/images";
+const FILES_PATH = "./assets/files";
+const IMAGES_PATH = "./assets/images";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
 
 async function downloadPdfs(convertToImage = true) {
@@ -25,7 +26,7 @@ async function downloadPdfs(convertToImage = true) {
         anchor.getAttribute("href")
       );
       const pdfFilename = path.basename(pdfUrl);
-      const pdfPath = `${DEST_PATH}/${pdfFilename}`;
+      const pdfPath = `${IMAGES_PATH}/${pdfFilename}`;
 
       function pdfCallback(err) {
         if (err) {
@@ -43,7 +44,7 @@ async function downloadPdfs(convertToImage = true) {
         logger.info(`Downloading PDF ${pdfUrl}`);
         downloadPdf(
           pdfUrl,
-          { directory: DEST_PATH, filename: pdfFilename },
+          { directory: IMAGES_PATH, filename: pdfFilename },
           pdfCallback
         );
       }
@@ -57,7 +58,7 @@ async function downloadPdfs(convertToImage = true) {
 }
 
 function pdfsToImage() {
-  return fs.readdir(DEST_PATH, (err, files) => {
+  return fs.readdir(IMAGES_PATH, (err, files) => {
     if (err) {
       return logger.info(`Unable to scan directory. Error: ${err}`);
     }
@@ -69,20 +70,20 @@ function pdfsToImage() {
       }
 
       logger.info(`Checking ${file}`);
-      const jpgPath = `${DEST_PATH}/${file.replace(extension, "-1.jpg")}`;
+      const jpgPath = `${IMAGES_PATH}/${file.replace(extension, "-1.jpg")}`;
       if (fs.existsSync(jpgPath)) {
         logger.info(`Image already exists at ${jpgPath}`);
         return;
       }
 
       logger.info(`Generating image for ${file}`);
-      return pdfToImage(`${DEST_PATH}/${file}`);
+      return pdfToImage(`${IMAGES_PATH}/${file}`);
     });
   });
 }
 
 function colorizeAll() {
-  return fs.readdir(DEST_PATH, async (err, files) => {
+  return fs.readdir(IMAGES_PATH, async (err, files) => {
     if (err) {
       return logger.info(`Unable to scan directory. Error: ${err}`);
     }
@@ -92,14 +93,36 @@ function colorizeAll() {
       if (extension !== ".jpg") {
         continue;
       }
-      await colorize(`${DEST_PATH}/${file}`);
+      await colorize(`${IMAGES_PATH}/${file}`);
+    }
+  });
+}
+
+function splitAllInFiles() {
+  return fs.readFile(`${FILES_PATH}/../files.md`, "utf8", (err, content) => {
+    if (err) {
+      return logger.info(`Unable to read file. Error: ${err}`);
+    }
+
+    const sections = content.split(/^##\s/m);
+    logger.info(`Sections in file: ${sections.length}`);
+    // remove the first one as it's useless
+    sections.shift();
+    for (const section of sections) {
+      const filename = section.split(/\n/)[0];
+      fs.writeFile(`${FILES_PATH}/${filename}.md`, section, "utf8", (err) => {
+        if (err) {
+          logger.error(`Could not create file for ${filename}`);
+        }
+        console.log(`Create file ${filename}`);
+      });
     }
   });
 }
 
 module.exports = {
-  main: downloadPdfs,
   downloadPdfs,
   pdfsToImage,
   colorizeAll,
+  splitAllInFiles,
 };
