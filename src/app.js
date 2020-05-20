@@ -7,19 +7,28 @@ const { getBrowser, newPage } = require("./services/browser");
 const { pdfToImage } = require("./services/pdf");
 const { colorize } = require("./services/colorizer");
 
+const ASSETS_PATH = "./assets";
 const FILES_PATH = "./assets/files";
 const IMAGES_PATH = "./assets/images";
+const IMAGES_VS_PATH = "./assets/images-vs";
 const URL = "https://desaparecidos.org.uy/desaparecidos/";
+const LIST_PATH = `${ASSETS_PATH}/list.json`;
+const LIST_COLORED_PATH = `${ASSETS_PATH}/list-with-colored.json`;
 
 async function downloadPdfs(convertToImage = true) {
   try {
     const browser = await getBrowser();
     const page = await newPage(browser);
     await page.goto(URL, { waitUntil: "networkidle2" });
-    const hrefs = await page.$$eval("#content a[rel]", (anchors) =>
-      anchors.map((anchor) => anchor.getAttribute("href"))
+    const anchors = await page.$$eval("#content a[rel]", (anchors) =>
+      anchors.map((anchor) => ({
+        textContent: anchor.textContent,
+        href: anchor.getAttribute("href"),
+      }))
     );
-    for (const href of hrefs) {
+    const list = [];
+    for (const anchor of anchors) {
+      const { textContent, href } = anchor;
       logger.info(`Accessing ${href}`);
       await page.goto(href, { waitUntil: "networkidle2" });
       const pdfUrl = await page.$eval("#content .attachment > a", (anchor) =>
@@ -27,6 +36,12 @@ async function downloadPdfs(convertToImage = true) {
       );
       const pdfFilename = path.basename(pdfUrl);
       const pdfPath = `${IMAGES_PATH}/${pdfFilename}`;
+
+      list.push({
+        name: textContent,
+        pdf: pdfPath,
+        image: `${pdfPath.replace(".pdf", "-1.jpg")}`,
+      });
 
       function pdfCallback(err) {
         if (err) {
@@ -49,6 +64,8 @@ async function downloadPdfs(convertToImage = true) {
         );
       }
     }
+
+    fs.writeFileSync(LIST_PATH, JSON.stringify(list), "utf8");
     browser.close();
   } catch (e) {
     logger.error(`Ocurrió un error al configurar puppeteer`, e);
@@ -120,9 +137,30 @@ function splitAllInFiles() {
   });
 }
 
+function addColoredImageToList() {
+  const list = require(`../${LIST_PATH}`);
+  const imageFiles = fs.readdirSync(IMAGES_VS_PATH, "utf8");
+
+  for (const item of list) {
+    const imagePattern = path.basename(item.image, path.extname(item.image));
+    const coloredImage = imageFiles.find(
+      (file) => file.indexOf(imagePattern) && file !== item.image
+    );
+
+    item.coloredImage = `${IMAGES_PATH}/${coloredImage}`;
+  }
+
+  fs.writeFileSync(LIST_COLORED_PATH, JSON.stringify(list), "utf8");
+}
+
+function twitList() {
+  const list = require(`../${LIST_COLORED_PATH}`);
+}
+
 module.exports = {
   downloadPdfs,
   pdfsToImage,
   colorizeAll,
   splitAllInFiles,
+  addColoredImageToList,
 };

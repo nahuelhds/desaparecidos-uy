@@ -1,4 +1,4 @@
-ALTMANN LEVY, Blanca Haydée
+## ALTMANN LEVY, Blanca Haydée
 
 #### 1
 
@@ -242,6 +242,3 @@ Partida de defunción:
 Repatriación de restos:
 Sepultura:
 ```
-
-##### Fichas personales de detenidos desaparecidos - ARGENTINA - Sección 2
-

@@ -1,4 +1,4 @@
-ALFARO VÁZQUEZ, Daniel Pedro
+## ALFARO VÁZQUEZ, Daniel Pedro
 
 #### 1
 
@@ -593,6 +593,3 @@ Repatriación de restos:
 ```
 Sepultura:
 ```
-
-##### Tomo II - Datos de las víctimas
-

@@ -3,5 +3,6 @@ assets/images/*
 !.gitkeep
 node_modules
 test
+.env
 *.iml
 *.log
