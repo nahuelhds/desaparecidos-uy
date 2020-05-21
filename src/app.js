@@ -180,7 +180,7 @@ async function twitList() {
     const lastName = name.split(", ")[0];
     const firstName = name.split(", ")[1];
     twitterService.updateWithMedia(
-      `${firstName} ${lastName}.\n¡Presente!\n\n#MarchaDelSilencio2020\n#MarchaDelSilencioPresente`,
+      `${firstName} ${lastName}\n¡Presente!\n\n#MarchaDelSilencio2020\n#MarchaDelSilencioPresente`,
       coloredImage,
       image,
       name
