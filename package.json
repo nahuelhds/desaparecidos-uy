@@ -10,6 +10,7 @@
     "start:colorizeAll": "node index.js --fn=colorizeAll",
     "start:splitAllInFiles": "node index.js --fn=splitAllInFiles",
     "start:addColoredImageToList": "node index.js --fn=addColoredImageToList",
+    "start:twitList": "node index.js --fn=twitList",
     "test": "jest"
   },
   "keywords": [],
@@ -24,7 +25,7 @@
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "puppeteer": "^3.0.4",
-    "twitter-lite": "^0.13.0",
+    "twit": "^2.2.11",
     "winston": "^3.2.1",
     "yargs": "^15.3.1"
   },

@@ -6,6 +6,7 @@ const { logger } = require("./services/logger");
 const { getBrowser, newPage } = require("./services/browser");
 const { pdfToImage } = require("./services/pdf");
 const { colorize } = require("./services/colorizer");
+const twitterService = require("./services/twitter");
 
 const ASSETS_PATH = "./assets";
 const FILES_PATH = "./assets/files";
@@ -137,24 +138,55 @@ function splitAllInFiles() {
   });
 }
 
+function normalizeText(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 function addColoredImageToList() {
   const list = require(`../${LIST_PATH}`);
   const imageFiles = fs.readdirSync(IMAGES_VS_PATH, "utf8");
+  console.log(imageFiles);
 
-  for (const item of list) {
+  list.map((item) => {
     const imagePattern = path.basename(item.image, path.extname(item.image));
+    console.log(imagePattern);
+    console.log(item);
     const coloredImage = imageFiles.find(
-      (file) => file.indexOf(imagePattern) && file !== item.image
+      (file) =>
+        normalizeText(file).indexOf(normalizeText(imagePattern)) > -1 &&
+        normalizeText(file) !== path.basename(normalizeText(item.image))
     );
 
     item.coloredImage = `${IMAGES_PATH}/${coloredImage}`;
-  }
+    return item;
+  });
 
   fs.writeFileSync(LIST_COLORED_PATH, JSON.stringify(list), "utf8");
 }
 
-function twitList() {
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function twitList() {
   const list = require(`../${LIST_COLORED_PATH}`);
+  for (const item of list) {
+    const { name, coloredImage, image } = item;
+    const lastName = name.split(", ")[0];
+    const firstName = name.split(", ")[1];
+    twitterService.updateWithMedia(
+      `${firstName} ${lastName}.\n¡Presente!\n\n#MarchaDelSilencio2020\n#MarchaDelSilencioPresente`,
+      coloredImage,
+      image,
+      name
+    );
+    await sleep(60000);
+  }
 }
 
 module.exports = {
@@ -163,4 +195,5 @@ module.exports = {
   colorizeAll,
   splitAllInFiles,
   addColoredImageToList,
+  twitList,
 };
